@@ -1,8 +1,8 @@
 
-import React, { useState } from 'react';
-import { View, Text, StyleSheet, ScrollView, FlatList, TouchableOpacity } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
 import { MaterialIcons } from '@expo/vector-icons';
+import React, { useState } from 'react';
+import { FlatList, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 const dates = [ { day: 'Sun', date: '07 Sep' }, { day: 'Mon', date: '08 Sep' }, { day: 'Tue', date: '09 Sep' }, { day: 'Wed', date: '10 Sep' }, { day: 'Thu', date: '11 Sep' }];
 const times = ['06:00 AM', '08:00 AM', '10:00 AM', '12:00 PM', '02:00 PM'];
@@ -23,9 +23,9 @@ const SeatSelectionScreen = () => {
   const [selectedDate, setSelectedDate] = useState('08 Sep');
   const [selectedTime, setSelectedTime] = useState('12:00 PM');
   const [seats, setSeats] = useState(initialSeats);
-  const [selectedSeats, setSelectedSeats] = useState([]);
+  const [selectedSeats, setSelectedSeats] = useState<string[]>([]);
 
-  const toggleSeat = (row, col) => {
+  const toggleSeat = (row: number, col: number) => {
     const newSeats = [...seats];
     const seat = newSeats[row][col];
     const seatName = `${String.fromCharCode(65 + row)}${col + 1}`;
@@ -40,7 +40,7 @@ const SeatSelectionScreen = () => {
     setSeats(newSeats);
   };
 
-  const renderDate = ({ item }) => (
+  const renderDate = ({ item }: { item: { day: string; date: string } }) => (
     <TouchableOpacity onPress={() => setSelectedDate(item.date)}>
       <View style={[styles.dateItem, selectedDate === item.date && styles.selectedDateItem]}>
         <Text style={[styles.dateDay, selectedDate === item.date && styles.selectedDateText]}>{item.day}</Text>
@@ -49,7 +49,7 @@ const SeatSelectionScreen = () => {
     </TouchableOpacity>
   );
 
-  const renderTime = ({ item }) => (
+  const renderTime = ({ item }: { item: string }) => (
     <TouchableOpacity onPress={() => setSelectedTime(item)}>
       <View style={[styles.timeItem, selectedTime === item && styles.selectedTimeItem]}>
         <Text style={[styles.timeText, selectedTime === item && styles.selectedTimeText]}>{item}</Text>
@@ -57,7 +57,7 @@ const SeatSelectionScreen = () => {
     </TouchableOpacity>
   );
 
-  const renderSeat = ({ item, index }) => {
+  const renderSeat = ({ item, index }: { item: string; index: number }) => {
     const row = Math.floor(index / 8);
     const col = index % 8;
     const status = seats[row][col];
@@ -76,6 +76,18 @@ const SeatSelectionScreen = () => {
 
   const totalPrice = selectedSeats.length * 120;
 
+  const renderSeatGrid = () => (
+    <View style={styles.seatGrid}>
+      <FlatList
+        data={seats.flat()}
+        renderItem={renderSeat}
+        keyExtractor={(item, index) => index.toString()}
+        numColumns={8}
+        scrollEnabled={false}
+      />
+    </View>
+  );
+
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.header}>
@@ -83,42 +95,42 @@ const SeatSelectionScreen = () => {
         <Text style={styles.headerTitle}>Selected Seats</Text>
         <View style={{ width: 24 }} />
       </View>
-      <ScrollView>
-        <View style={styles.pickerContainer}>
-          <FlatList horizontal data={dates} renderItem={renderDate} keyExtractor={item => item.date} showsHorizontalScrollIndicator={false} />
-        </View>
-        <View style={styles.pickerContainer}>
-          <FlatList horizontal data={times} renderItem={renderTime} keyExtractor={item => item} showsHorizontalScrollIndicator={false} />
-        </View>
-
-        <View style={styles.screenContainer}>
-          <View style={styles.screenLine} />
-          <Text style={styles.screenText}>SCREEN</Text>
-        </View>
-
-        <View style={styles.seatGrid}>
-          <FlatList
-            data={seats.flat()}
-            renderItem={renderSeat}
-            keyExtractor={(item, index) => index.toString()}
-            numColumns={8}
-          />
-        </View>
-
-        <View style={styles.legendContainer}>
-            <View style={styles.legendItem}><View style={[styles.legendBox, styles.seatAvailable]} /><Text style={styles.legendText}>Available</Text></View>
-            <View style={styles.legendItem}><View style={[styles.legendBox, styles.seatSelected]} /><Text style={styles.legendText}>Selected</Text></View>
-            <View style={styles.legendItem}><View style={[styles.legendBox, styles.seatUnavailable]} /><Text style={styles.legendText}>Unavailable</Text></View>
-        </View>
-
-        <View style={styles.selectedSeatsContainer}>
-            <Text style={styles.selectedSeatsTitle}>Selected Seats</Text>
-            <View style={styles.selectedSeatsList}>
-                {selectedSeats.map(seat => <Text key={seat} style={styles.selectedSeat}>{`Seat ${seat}`}</Text>)}
+      
+      <FlatList
+        data={[{ key: 'content' }]}
+        renderItem={() => (
+          <View>
+            <View style={styles.pickerContainer}>
+              <FlatList horizontal data={dates} renderItem={renderDate} keyExtractor={item => item.date} showsHorizontalScrollIndicator={false} />
             </View>
-        </View>
+            <View style={styles.pickerContainer}>
+              <FlatList horizontal data={times} renderItem={renderTime} keyExtractor={item => item} showsHorizontalScrollIndicator={false} />
+            </View>
 
-      </ScrollView>
+            <View style={styles.screenContainer}>
+              <View style={styles.screenLine} />
+              <Text style={styles.screenText}>SCREEN</Text>
+            </View>
+
+            {renderSeatGrid()}
+
+            <View style={styles.legendContainer}>
+              <View style={styles.legendItem}><View style={[styles.legendBox, styles.seatAvailable]} /><Text style={styles.legendText}>Available</Text></View>
+              <View style={styles.legendItem}><View style={[styles.legendBox, styles.seatSelected]} /><Text style={styles.legendText}>Selected</Text></View>
+              <View style={styles.legendItem}><View style={[styles.legendBox, styles.seatUnavailable]} /><Text style={styles.legendText}>Unavailable</Text></View>
+            </View>
+
+            <View style={styles.selectedSeatsContainer}>
+              <Text style={styles.selectedSeatsTitle}>Selected Seats</Text>
+              <View style={styles.selectedSeatsList}>
+                {selectedSeats.map(seat => <Text key={seat} style={styles.selectedSeat}>{`Seat ${seat}`}</Text>)}
+              </View>
+            </View>
+          </View>
+        )}
+        keyExtractor={(item) => item.key}
+      />
+      
       <View style={styles.footer}>
         <View>
           <Text style={styles.priceText}>${totalPrice.toFixed(1)}</Text>

@@ -13,7 +13,7 @@ Sync Impact Report:
     - .specify/templates/tasks-template.md (⚠ pending)
 - Follow-up TODOs: none
 -->
-# expo-test Constitution
+# Book Cinema Constitution
 
 ## Core Principles
 
