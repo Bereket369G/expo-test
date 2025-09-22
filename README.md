@@ -1,53 +1,90 @@
-> Edited for use in IDX on 07/09/12
+# Cinema Ticket Booking App
 
-# Welcome to your Expo app 👋
+This is a multi-screen cinema ticket booking mobile application built with React Native and Expo. It provides a seamless experience for users to browse movies, view details, select seats, and book tickets.
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+## Features
 
-## Get started
+- **Splash Screen**: An engaging entry point to the application.
+- **Home Screen**: Browse movie banners, top movies, and upcoming releases.
+- **Movie Details**: View comprehensive details for each movie, including summary, cast, and genres.
+- **Seat Selection**: An interactive seat map to choose your desired seats.
+- **Checkout Confirmation**: A summary of your booking details.
+- **Cross-Platform**: Runs on Android, iOS, and Web from a single codebase.
 
-#### Android
+## Tech Stack
 
-Android previews are defined as a `workspace.onStart` hook and started as a vscode task when the workspace is opened/started.
+- **Framework**: React Native with Expo
+- **Language**: TypeScript
+- **Navigation**: Expo Router
+- **Styling**: React Native StyleSheet
 
-Note, if you can't find the task, either:
-- Rebuild the environment (using command palette: `IDX: Rebuild Environment`), or
-- Run `npm run android -- --tunnel` command manually run android and see the output in your terminal. The device should pick up this new command and switch to start displaying the output from it.
+## Getting Started
 
-In the output of this command/task, you'll find options to open the app in a
+Follow these instructions to get a copy of the project up and running on your local machine for development and testing purposes.
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
+### Prerequisites
 
-You'll also find options to open the app's developer menu, reload the app, and more.
+- Node.js (LTS version recommended)
+- npm or yarn
+- Expo Go app on your Android or iOS device (for running on a physical device)
+- Android Studio and an emulator (for running in an Android emulator)
 
-#### Web
+### Installation
 
-Web previews will be started and managred automatically. Use the toolbar to manually refresh.
+1.  Clone the repository:
+    ```bash
+    git clone <repository-url>
+    ```
+2.  Navigate to the project directory:
+    ```bash
+    cd expo-test
+    ```
+3.  Install the dependencies:
+    ```bash
+    npm install
+    ```
 
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
+## Running the Application
 
-## Get a fresh project
+You can run the application in several ways:
 
-When you're ready, run:
+### 1. On a Physical Device (Android or iOS)
 
-```bash
-npm run reset-project
-```
+1.  Make sure your computer and your mobile device are on the same Wi-Fi network.
+2.  Start the Expo development server:
+    ```bash
+    npx expo start
+    ```
+3.  A QR code will be displayed in the terminal.
+4.  Open the **Expo Go** app on your device and scan the QR code.
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+### 2. In an Android Emulator
 
-## Learn more
+1.  Make sure you have an Android emulator installed and running.
+2.  Start the Expo development server:
+    ```bash
+    npx expo start
+    ```
+3.  In the terminal where the server is running, press `a`.
 
-To learn more about developing your project with Expo, look at the following resources:
+### 3. In a Web Browser
 
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
+1.  Start the Expo development server for the web:
+    ```bash
+    npx expo start --web
+    ```
+2.  The application will automatically open in your default web browser.
 
-## Join the community
+## Project Structure
 
-Join our community of developers creating universal apps.
+The project follows a file-based routing system provided by Expo Router. The main screens are located in the `app` directory:
 
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+- `app/index.tsx`: Splash Screen
+- `app/home.tsx`: Home Screen
+- `app/movie-detail.tsx`: Movie Detail Screen
+- `app/seat-selection.tsx`: Seat Selection Screen
+- `app/checkout-confirmation.tsx`: Checkout Confirmation Screen
+
+## Contributing
+
+Contributions are welcome! Please feel free to open an issue or submit a pull request.
